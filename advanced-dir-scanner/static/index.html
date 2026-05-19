@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Directory Scanner</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #121212; color: #e0e0e0; margin: 0; padding: 20px; }
+        .container { max-width: 1000px; margin: 0 auto; background-color: #1e1e1e; padding: 20px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.3); }
+        h1 { color: #bb86fc; margin-top: 0; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; }
+        input[type="text"], input[type="number"], textarea { width: 100%; padding: 10px; background-color: #2d2d2d; border: 1px solid #444; color: #fff; border-radius: 4px; box-sizing: border-box; }
+        .checkbox-group { display: flex; align-items: center; }
+        .checkbox-group input { margin-right: 10px; }
+        button { background-color: #bb86fc; color: #000; border: none; padding: 10px 20px; cursor: pointer; font-weight: bold; border-radius: 4px; font-size: 16px; }
+        button:hover { background-color: #9965f4; }
+        button:disabled { background-color: #555; color: #888; cursor: not-allowed; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { padding: 10px; text-align: left; border-bottom: 1px solid #444; }
+        th { background-color: #2d2d2d; }
+        .status-200 { color: #03dac6; }
+        .status-301, .status-302 { color: #ffb74d; }
+        .status-403 { color: #cf6679; }
+        .spinner { display: inline-block; width: 20px; height: 20px; border: 3px solid rgba(255,255,255,.3); border-radius: 50%; border-top-color: #bb86fc; animation: spin 1s ease-in-out infinite; vertical-align: middle; margin-left: 10px; display: none; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Directory Scanner</h1>
+
+        <form id="scanForm">
+            <div class="form-group">
+                <label for="targetUrl">Target URL:</label>
+                <input type="text" id="targetUrl" placeholder="http://example.com" required>
+            </div>
+
+            <div class="form-group">
+                <label for="concurrency">Concurrency (Threads):</label>
+                <input type="number" id="concurrency" value="10" min="1" max="100">
+            </div>
+
+            <div class="form-group checkbox-group">
+                <input type="checkbox" id="recursive">
+                <label for="recursive" style="margin-bottom:0;">Recursive Scan</label>
+            </div>
+
+            <div class="form-group">
+                <label for="wordlist">Wordlist (one word per line):</label>
+                <textarea id="wordlist" rows="6">admin
+login
+api
+css
+js
+images
+config
+hidden
+secret
+backup
+.git
+.env</textarea>
+            </div>
+
+            <button type="submit" id="startBtn">Start Scan</button>
+            <div id="loading" class="spinner"></div>
+        </form>
+
+        <h2>Results <span id="resultCount">(0)</span></h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Status</th>
+                    <th>Path</th>
+                    <th>URL</th>
+                    <th>Size</th>
+                </tr>
+            </thead>
+            <tbody id="resultsTable">
+                <!-- Results go here -->
+            </tbody>
+        </table>
+    </div>
+    <script src="app.js"></script>
+</body>
+</html>
